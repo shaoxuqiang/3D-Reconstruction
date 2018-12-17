@@ -1,0 +1,49 @@
+
+float findCam(float3 n0,float1 n1,float n2,float n3,float n4,float n5)
+{
+	float a,b,c,d;
+	float cos1=dot(n0,n1);
+	float cos2=dot(n0,n2);
+	float cos3=dot(n0,n3);
+	float cos4=dot(n0,n4);
+	float cos5=dot(n0,n5);
+	a=max(cos1,cos2);
+	b=max(a,cos3);
+	c=max(b,cos4);
+	d=max(c,cos5);
+	return d;
+}
+void Fragment_TextureMap( float2 TexCoord1  : TEXCOORD0, //ÎÆÀí×ø±ê
+                          float2 TexCoord2  : TEXCOORD1,
+						  float2 TexCoord3  : TEXCOORD2,
+						  float2 TexCoord4  : TEXCOORD3,
+						  float2 TexCoord5  : TEXCOORD4,
+						  float3 normal     : TEXCOORD5,
+                          out float4 color : COLOR,
+
+                          uniform sampler2D decal1,
+                          uniform sampler2D decal2,
+                          uniform sampler2D decal3,
+                          uniform sampler2D decal4,
+                          uniform sampler2D decal5,
+                    
+                          uniform float3 normal1,
+                          uniform float3 normal2,
+                          uniform float3 normal3,
+                          uniform float3 normal4,
+                          uniform float3 normal5)
+{
+	  float temp;
+	  temp=findCam(normal,normal1,normal2,normal3,normal4,normal5);
+      if(temp==dot(normal,normal1))
+		color = tex2D(decal1,TexCoord1);
+	  if(temp==dot(normal,normal2))
+		color = tex2D(decal2,TexCoord2);
+	  if(temp==dot(normal,normal3))
+		color = tex2D(decal3,TexCoord3);
+	  if(temp==dot(normal,normal4))
+		color = tex2D(decal4,TexCoord4);
+	  if(temp==dot(normal,normal5))
+		color = tex2D(decal5,TexCoord5);
+	  color = tex2D(decal1,TexCoord1);
+}
